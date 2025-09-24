@@ -15,6 +15,12 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        // Role-based variants
+        farmer: "bg-farmer text-farmer-foreground hover:bg-farmer/90 shadow-farmer",
+        testing: "bg-testing text-testing-foreground hover:bg-testing/90 shadow-testing",
+        manufacturing: "bg-manufacturing text-manufacturing-foreground hover:bg-manufacturing/90 shadow-manufacturing",
+        packaging: "bg-packaging text-packaging-foreground hover:bg-packaging/90 shadow-packaging",
+        admin: "bg-admin text-admin-foreground hover:bg-admin/90 shadow-admin",
       },
       size: {
         default: "h-10 px-4 py-2",
