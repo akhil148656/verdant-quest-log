@@ -39,6 +39,19 @@ export default function Login() {
   const { login, isLoading } = useAuth();
   const { toast } = useToast();
 
+  const getButtonStyles = (role: UserRole | '') => {
+    if (!role) return 'bg-muted text-muted-foreground cursor-not-allowed';
+    
+    switch (role) {
+      case 'farmer': return 'btn-farmer glow-farmer';
+      case 'testing': return 'btn-testing glow-testing';
+      case 'manufacturing': return 'btn-manufacturing glow-manufacturing';
+      case 'packaging': return 'btn-packaging glow-packaging';
+      case 'admin': return 'btn-admin glow-admin';
+      default: return 'bg-primary text-primary-foreground hover:bg-primary/90';
+    }
+  };
+
   const handleRoleSelect = (role: UserRole) => {
     setSelectedRole(role);
     setEmail(demoCredentials[role].email);
@@ -97,23 +110,54 @@ export default function Login() {
                 const Icon = roleIcons[role];
                 const isSelected = selectedRole === role;
                 
+                const getRoleStyles = (role: UserRole, isSelected: boolean) => {
+                  const baseStyles = "cursor-pointer transition-all duration-300 hover:shadow-lg";
+                  if (!isSelected) return `${baseStyles} hover:shadow-md`;
+                  
+                  switch (role) {
+                    case 'farmer': return `${baseStyles} bg-farmer-muted border-farmer shadow-farmer`;
+                    case 'testing': return `${baseStyles} bg-testing-muted border-testing shadow-testing`;
+                    case 'manufacturing': return `${baseStyles} bg-manufacturing-muted border-manufacturing shadow-manufacturing`;
+                    case 'packaging': return `${baseStyles} bg-packaging-muted border-packaging shadow-packaging`;
+                    case 'admin': return `${baseStyles} bg-admin-muted border-admin shadow-admin`;
+                    default: return baseStyles;
+                  }
+                };
+
+                const getIconStyles = (role: UserRole, isSelected: boolean) => {
+                  const baseStyles = "p-2 rounded-lg";
+                  if (!isSelected) return `${baseStyles} bg-muted`;
+                  
+                  switch (role) {
+                    case 'farmer': return `${baseStyles} bg-farmer text-farmer-foreground`;
+                    case 'testing': return `${baseStyles} bg-testing text-testing-foreground`;
+                    case 'manufacturing': return `${baseStyles} bg-manufacturing text-manufacturing-foreground`;
+                    case 'packaging': return `${baseStyles} bg-packaging text-packaging-foreground`;
+                    case 'admin': return `${baseStyles} bg-admin text-admin-foreground`;
+                    default: return `${baseStyles} bg-muted`;
+                  }
+                };
+
+                const getDotStyles = (role: UserRole) => {
+                  switch (role) {
+                    case 'farmer': return 'h-3 w-3 rounded-full bg-farmer';
+                    case 'testing': return 'h-3 w-3 rounded-full bg-testing';
+                    case 'manufacturing': return 'h-3 w-3 rounded-full bg-manufacturing';
+                    case 'packaging': return 'h-3 w-3 rounded-full bg-packaging';
+                    case 'admin': return 'h-3 w-3 rounded-full bg-admin';
+                    default: return 'h-3 w-3 rounded-full bg-primary';
+                  }
+                };
+
                 return (
                   <Card 
                     key={role}
-                    className={`cursor-pointer transition-all duration-300 hover:shadow-lg ${
-                      isSelected 
-                        ? `bg-${role}-muted border-${role} shadow-${role}` 
-                        : 'hover:shadow-md'
-                    }`}
+                    className={getRoleStyles(role, isSelected)}
                     onClick={() => handleRoleSelect(role)}
                   >
                     <CardContent className="p-4">
                       <div className="flex items-center space-x-3">
-                        <div className={`p-2 rounded-lg ${
-                          isSelected 
-                            ? `bg-${role} text-${role}-foreground` 
-                            : 'bg-muted'
-                        }`}>
+                        <div className={getIconStyles(role, isSelected)}>
                           <Icon className="h-5 w-5" />
                         </div>
                         <div className="flex-1">
@@ -125,7 +169,7 @@ export default function Login() {
                           </p>
                         </div>
                         {isSelected && (
-                          <div className={`h-3 w-3 rounded-full bg-${role}`} />
+                          <div className={getDotStyles(role)} />
                         )}
                       </div>
                     </CardContent>
@@ -187,7 +231,7 @@ export default function Login() {
 
                 <Button
                   type="submit"
-                  className={`w-full ${selectedRole ? `btn-${selectedRole} glow-${selectedRole}` : ''}`}
+                  className={`w-full transition-all duration-300 transform hover:scale-105 ${getButtonStyles(selectedRole)}`}
                   disabled={isLoading || !selectedRole}
                 >
                   {isLoading ? (
