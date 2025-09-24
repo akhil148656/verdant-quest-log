@@ -182,7 +182,7 @@ export default function Login() {
           {/* Login Form */}
           <Card className="w-full">
             <CardHeader>
-              <CardTitle className="font-orbitron">Demo Login</CardTitle>
+              <CardTitle className="font-orbitron">Log in</CardTitle>
               <CardDescription>
                 Select a role to auto-fill credentials, then click login
               </CardDescription>
